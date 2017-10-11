@@ -1,2 +1,2 @@
 # saitan
-most short root of St. to St.
+best short root of St. to St.
