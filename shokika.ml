@@ -21,7 +21,7 @@ let test_ekimei_list = [
 
 let eki_list = make_eki_list test_ekimei_list                         
   
-let rec shokika lst kiten = match lst with
+let rec shokika eki_list kiten = match eki_list with
     [] -> []
   | ({namae = n; saitan_kyori = km; temae_list = lst2 } as first) :: rest ->
      if n = kiten then
@@ -31,14 +31,25 @@ let rec shokika lst kiten = match lst with
 
 (* テスト *)
 let test1 = shokika [] "表参道" = []
-let test2 = shokika eki_list "表参道" =
-              [{namae = "代々木上原"; saitan_kyori = 0.; temae_list = []};
-              {namae = "代々木公園"; saitan_kyori = 0.; temae_list = []};
-              {namae = "明治神宮前"; saitan_kyori = 0.; temae_list = []};
-              {namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]};
-              {namae = "乃木坂"; saitan_kyori = 0.; temae_list = []};
-              {namae = "赤坂"; saitan_kyori = 0.; temae_list = []};
-              {namae = "国会議事堂前"; saitan_kyori = 0.; temae_list = []};
-              {namae = "霞ヶ関"; saitan_kyori = 0.; temae_list = []};]
+let test2 = shokika eki_list "表参道" = [
+    {namae = "代々木上原";   saitan_kyori = infinity;   temae_list = []};
+    {namae = "代々木公園";   saitan_kyori = infinity;   temae_list = []};
+    {namae = "明治神宮前";   saitan_kyori = infinity;   temae_list = []};
+    {namae = "表参道";       saitan_kyori = 0.;   temae_list = ["表参道"]};
+    {namae = "乃木坂";       saitan_kyori = infinity;   temae_list = []};
+    {namae = "赤坂";         saitan_kyori = infinity;   temae_list = []};
+    {namae = "国会議事堂前"; saitan_kyori = infinity;   temae_list = []};
+    {namae = "霞ヶ関";       saitan_kyori = infinity;   temae_list = []};
+  ]
+let test3 = shokika eki_list "代々木上原" = [
+    {namae = "代々木上原";   saitan_kyori = 0.;   temae_list = ["代々木上原"]};
+    {namae = "代々木公園";   saitan_kyori = infinity;   temae_list = []};
+    {namae = "明治神宮前";   saitan_kyori = infinity;   temae_list = []};
+    {namae = "表参道";       saitan_kyori = infinity;   temae_list = []};
+    {namae = "乃木坂";       saitan_kyori = infinity;   temae_list = []};
+    {namae = "赤坂";         saitan_kyori = infinity;   temae_list = []};
+    {namae = "国会議事堂前"; saitan_kyori = infinity;   temae_list = []};
+    {namae = "霞ヶ関";       saitan_kyori = infinity;   temae_list = []};
+  ]
               
             

@@ -1,0 +1,4 @@
+(* ex12-4.ml *)
+(* 目的：ekimei_t型のリストを受け取ったら、それをひらがな順に整列し、
+さらに駅の重複を取り除いたekimei_t型のリストを返す *)
+(* seiretsu : ekimei_t list -> ekimei_t *)
