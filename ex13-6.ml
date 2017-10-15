@@ -46,7 +46,7 @@ let tmp_eki_list7 = [
     {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []};
 ]
 
-type v = {
+type vvv = {
   va : int;
 }
 
