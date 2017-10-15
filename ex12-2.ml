@@ -1,4 +1,4 @@
-(* wex12-2.ml *)
+(* ex12-2.ml *)
 
   #use "metro.ml"
 
