@@ -18,8 +18,7 @@ let rec quick_sort lst =
            in match lst with
                 [] -> []                    (* 自明に答えが出るケース *)
               | first :: rest -> quick_sort(take_less first rest)
-                                 @ [first]
-                                 @ quick_sort(take_equal first rest)
+                                 @ first :: take_equal first rest
                                  @  quick_sort(take_greater first rest)
                                            
 (* テスト *)
