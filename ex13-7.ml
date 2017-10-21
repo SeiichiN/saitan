@@ -8,7 +8,8 @@
 let koushin p v =
   List.map (koushin1 p) v 
      
-     (* テスト *)
+(* テスト *)
+(* s = "銀座" *)
 let test1 = koushin s tmp_eki_list7 =
   [{namae = "青山一丁目"; saitan_kyori = infinity; temae_list = []};
    {namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
