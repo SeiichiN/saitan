@@ -41,6 +41,20 @@ let tmp_eki_list9 = [tmp_eki1; tmp_eki2; tmp_eki3; tmp_eki4]
 let chiisai p (q, v_list) = match (p, q) with
     ({namae = pn; saitan_kyori = ps; temae_list = pt},
      {namae = qn; saitan_kyori = qs; temae_list = qt}) ->
+    if qn = "" then (p, v_list)
+    else if ps -. qs < 0. then (p, q :: v_list)
+    else (q, p :: v_list)
+    (*
+上記の式は、以下のような駅を最短最小の駅としてしまう。
+
+   {namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]};
+
+解答例ではそうなっているのだが、それでいいのかなあ。
+まあ、v_list に残った駅からまた最短距離の駅をもとめて、それをリストアップし、
+v_list から削除するから、それでいいのかもしれない。
+一応、以下に、その前の僕の記述を残しておく。
+     *)
+(*
     if ps = infinity && qs = infinity then (p, q :: v_list)
     else if ps <> 0. && qs <> 0. then
       if ps -. qs < 0. then (p, q :: v_list)
@@ -48,32 +62,33 @@ let chiisai p (q, v_list) = match (p, q) with
     else if ps = 0. && qs <> 0. then (q, p :: v_list)
     else if ps <> 0. && qs = 0. then (p, q :: v_list)
     else (p, q :: v_list)       (* 両方共0ならば、pとしておく *)
-            
+     *)
+    
 (* テスト *)
-let test1 = chiisai tmp_eki1 (tmp_eki2, [])  = (tmp_eki1, [tmp_eki2])
+let test1 = chiisai tmp_eki1 (tmp_eki2, [])  = (tmp_eki2, [tmp_eki1])
 let test2 = chiisai tmp_eki2 (tmp_eki3, [])  = (tmp_eki3, [tmp_eki2])
 let test3 = chiisai tmp_eki3 (tmp_eki4, [])  = (tmp_eki4, [tmp_eki3])
 
 (* 目的：eki_t list型のリストを受け取ったら、最短距離最小の駅を返す *)
-(* saisho : eki_t list -> eki_t *)
-let saisho lst = List.fold_right chiisai lst
+(* saitan_wo_bunrui : eki_t list -> eki_t * eki_t list *)
+let saitan_wo_bunrui lst = List.fold_right chiisai lst
                                  ({namae = ""; saitan_kyori = infinity; temae_list = []}, [])
-                                 (* テスト *)
 
-let test10 = saisho tmp_eki_list9 =
-          (tmp_eki4,[tmp_eki1; tmp_eki2; tmp_eki3; tmp_eki0])
-let test11 = saisho tmp_eki_list9 =
-          (tmp_eki4,[tmp_eki3; tmp_eki2; tmp_eki1; tmp_eki0])
-let test12 = saisho tmp_eki_list9 =
-          (tmp_eki4,[tmp_eki1; tmp_eki3; tmp_eki2; tmp_eki0])
-let test13 = saisho tmp_eki_list9 =
-          (tmp_eki4,[tmp_eki3; tmp_eki1; tmp_eki2; tmp_eki0])
+(* テスト *)
+let test10 = saitan_wo_bunrui tmp_eki_list9 =
+          (tmp_eki4,[tmp_eki1; tmp_eki2; tmp_eki3])
+let test11 = saitan_wo_bunrui tmp_eki_list9 =
+          (tmp_eki4,[tmp_eki3; tmp_eki2; tmp_eki1])
+let test12 = saitan_wo_bunrui tmp_eki_list9 =
+          (tmp_eki4,[tmp_eki1; tmp_eki3; tmp_eki2])
+let test13 = saitan_wo_bunrui tmp_eki_list9 =
+          (tmp_eki4,[tmp_eki3; tmp_eki1; tmp_eki2])
 
 (* ****************************************************
-
+eki_t型を得るのではなく、駅名を得るのに、以下を使った。
 
             (* 目的：eki_t型の駅の駅名を返す *)
-(* saisho_ekimei -> eki_t -> string *)
+(* saitan_wo_bunrui_ekimei -> eki_t -> string *)
 let ekimei eki = match eki with
     {namae = n; saitan_kyori = s; temae_list = t} ->
     n
