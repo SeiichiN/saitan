@@ -1,0 +1,38 @@
+kanji_to_romaji "青山一丁目" global_ekimei_list ;;
+- : string = "aoyamaicchome"
+# kanji_to_romaji "清澄白河" global_ekimei_list ;;
+- : string = "kiyosumi-shirakawa"
+#
+o# dijkstra "aoyamaicchome" "kiyosumi-shirakawa" ;;
+- : eki_t =
+{namae = "清澄白河"; saitan_kyori = 8.9;
+ temae_list =
+  ["清澄白河"; "水天宮前"; "三越前"; "日本橋"; "京橋";
+   "銀座"; "霞ヶ関"; "国会議事堂前"; "赤坂見附";
+   "青山一丁目"]}
+
+青山一丁目から清澄白河に行くルートを指定してみた。
+
+始点  青山一丁目
+                    銀座線
+      赤坂見附
+                    丸ノ内線
+      国会議事堂前
+                    〃
+      霞ヶ関
+                    〃
+      銀座
+                    銀座線
+      京橋
+                    〃
+      日本橋
+                    〃
+      三越前
+                    半蔵門線
+      水天宮前
+                    〃
+      清澄白河
+
+
+Yahoo路線案内で検索して見ると、半蔵門線で8駅とでた。
+

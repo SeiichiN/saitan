@@ -5,7 +5,7 @@
 (* temae_list は始点の駅名のみ *)
 (* shokika : eki_t list -> string -> eki_t list *)
   
-  #use "metro.ml"  (* type ekimei_t, type ekikan_t, リストglobal_ekimei_list, リストglobal_ekikan_list *)
+(*  #use "metro.ml" *)  (* type ekimei_t, type ekikan_t, リストglobal_ekimei_list, リストglobal_ekikan_list *)
   #use "ex12-1.ml"  (* type eki_t *)
 
 

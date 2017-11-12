@@ -1,6 +1,6 @@
 (* ex15-5.ml *)
 (* あらかじめ ex12_1.ml を読み込んでおく必要あり *) 
-#use "ex12-1.ml" (* eki_t の定義 *) 
+(* #use "ex12-1.ml" *) (* eki_t の定義 *) 
  
 (* 目的：受け取った駅のリストを、最短距離最小の駅とそれ以外に分離する *) 
 (* saitan_wo_bunri : eki_t list -> eki_t * eki_t list *) 
