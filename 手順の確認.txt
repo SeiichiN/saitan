@@ -1,0 +1,199 @@
+頭が混乱してきているので、ちょっと整理してみた。
+
+とりあえず、tmp_eki_list7を使って、
+
+saitan_wo_bunri関数 と koushin関数の働きを見てみることにする。
+
+ちなみに、temp_eki_list7の作成方法は、以下である。
+（これは、saitan_wo_bunri.mlの中に記述してある。）
+
+(* リストの作り方 *)
+(* 重複を削除して整列 seiretsu : ekimei_t list -> ekimei_t list *)
+(* eki_t型のリストにする make_eki_list : ekimei_t list -> eki_t list *)
+(* 初期化する shokika : eki_t list -> string -> eki_t list *)
+
+let tmp_eki_list7 = [
+    {namae = "青山一丁目"; saitan_kyori = infinity; temae_list = []};
+    {namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
+    {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+    {namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]};
+    {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
+    {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
+    {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
+    {namae = "神保町"; saitan_kyori = infinity; temae_list = []};
+    {namae = "永田町"; saitan_kyori = infinity; temae_list = []};
+    {namae = "二重橋前"; saitan_kyori = infinity; temae_list = []};
+    {namae = "乃木坂"; saitan_kyori = infinity; temae_list = []};
+    {namae = "半蔵門"; saitan_kyori = infinity; temae_list = []};
+    {namae = "日比谷"; saitan_kyori = infinity; temae_list = []};
+    {namae = "明治神宮前"; saitan_kyori = infinity; temae_list = []};
+    {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
+    {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []};
+  ]
+
+=====================================================================
+このリストに対して、saitan_wo_bunri関数を実行する。
+
+o# saitan_wo_bunri tmp_eki_list7 ;;
+- : eki_t * eki_t list =
+({namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]},
+ [{namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
+  {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "青山一丁目"; saitan_kyori = infinity; temae_list = []};
+  {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
+  {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
+  {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
+  {namae = "神保町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "永田町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "二重橋前"; saitan_kyori = infinity; temae_list = []};
+  {namae = "乃木坂"; saitan_kyori = infinity; temae_list = []};
+  {namae = "半蔵門"; saitan_kyori = infinity; temae_list = []};
+  {namae = "日比谷"; saitan_kyori = infinity; temae_list = []};
+  {namae = "明治神宮前"; saitan_kyori = infinity; temae_list = []};
+  {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
+  {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []}])
+
+起点となるのが「表参道」。当然最短距離は 0 。
+その表参道と、それ以外とを分類している。
+つまり、「それ以外」をリスト化している。
+
+そして、表参道とそれ以外のリストを (...) でくくって、グループとしている。
+
+=====================================================================
+次に、koushin関数の動きを見てみる。
+
+koushin関数は、引数を３つ受け取る。
+p           -- 直前に確定した駅(eki_t型)。
+list        -- 未確定の駅のリスト(eki_t list型)
+ekikan_list -- 駅間のリスト(ekikan_t list型)。ここでは、global_ekikan_listを指定。
+
+saitan_wo_bunri関数でできたリストを使ってみる。
+
+p = {namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]}
+
+tmp_eki_list7B =
+ [{namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
+  {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "青山一丁目"; saitan_kyori = infinity; temae_list = []};
+  {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
+  {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
+  {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
+  {namae = "神保町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "永田町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "二重橋前"; saitan_kyori = infinity; temae_list = []};
+  {namae = "乃木坂"; saitan_kyori = infinity; temae_list = []};
+  {namae = "半蔵門"; saitan_kyori = infinity; temae_list = []};
+  {namae = "日比谷"; saitan_kyori = infinity; temae_list = []};
+  {namae = "明治神宮前"; saitan_kyori = infinity; temae_list = []};
+  {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
+  {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []}]
+
+これの実行結果が、以下。
+
+# koushin p tmp_eki_list7B global_ekikan_list ;;
+- : eki_t list =
+[{namae = "青山一丁目"; saitan_kyori = 1.4; temae_list = ["青山一丁目"; "表参道"]};
+ {namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
+ {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
+ {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
+ {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
+ {namae = "神保町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "永田町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "二重橋前"; saitan_kyori = infinity; temae_list = []};
+ {namae = "乃木坂"; saitan_kyori = 1.4; temae_list = ["乃木坂"; "表参道"]};
+ {namae = "半蔵門"; saitan_kyori = infinity; temae_list = []};
+ {namae = "日比谷"; saitan_kyori = infinity; temae_list = []};
+ {namae = "明治神宮前"; saitan_kyori = 0.9; temae_list = ["明治神宮前"; "表参道"]};
+ {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
+ {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []}]
+
+表参道を起点として、ひと駅でつながっている駅が temae_list にリスト化されている。
+
+
+=====================================================================
+dijkstra_main 関数のはたらき
+
+この関数は、引数を「未確定駅のリスト」としている。すなわち、「tmp_eki_list7」である。
+
+それを saitan_wo_bunri 関数を使って 「確定駅」 と 「それ以外駅リスト」に分けてグループ化し、
+koushin関数に渡している。
+koushin関数は「確定駅とひと駅でつながっている駅」を temae_list に入れて、「未確定駅リスト」を更新する。このとき、「未確定駅リスト」には、起点の駅＝確定駅ははいっていない。
+
+dijkstra_main関数は再帰関数である。
+
+今度は、新しくできた「未確定駅リスト」を処理する。
+先ほどの koushin p tmp_eki_list7B global_ekikan_list でできた未確定駅リストを tmp_eki_list8 として saitan_wo_bunri関数にわたしてみる。
+
+# saitan_wo_bunri tmp_eki_list8 ;;
+- : eki_t * eki_t list =
+({namae = "明治神宮前"; saitan_kyori = 0.9;
+  temae_list = ["明治神宮前"; "表参道"]},
+ [{namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
+  {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
+  {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
+  {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
+  {namae = "神保町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "永田町"; saitan_kyori = infinity; temae_list = []};
+  {namae = "二重橋前"; saitan_kyori = infinity; temae_list = []};
+  {namae = "乃木坂"; saitan_kyori = 1.4; temae_list = ["乃木坂"; "表参道"]};
+  {namae = "半蔵門"; saitan_kyori = infinity; temae_list = []};
+  {namae = "日比谷"; saitan_kyori = infinity; temae_list = []};
+  {namae = "青山一丁目"; saitan_kyori = 1.4; temae_list = ["青山一丁目"; "表参道"]};
+  {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
+  {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []}])
+#
+
+表参道に一番近かった「明治神宮前」駅が分離されている。
+
+これを koushin関数に渡してみる。
+t を明治神宮前駅
+tmp_eki_list9 をそれ以外の駅のリストとして koushin関数にわたした。
+
+o# koushin t tmp_eki_list9 global_ekikan_list ;;
+- : eki_t list =
+[{namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
+ {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
+ {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
+ {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
+ {namae = "神保町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "永田町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "二重橋前"; saitan_kyori = infinity; temae_list = []};
+ {namae = "乃木坂"; saitan_kyori = 1.4; temae_list = ["乃木坂"; "表参道"]};
+ {namae = "半蔵門"; saitan_kyori = infinity; temae_list = []};
+ {namae = "日比谷"; saitan_kyori = infinity; temae_list = []};
+ {namae = "青山一丁目"; saitan_kyori = 1.4; temae_list = ["青山一丁目"; "表参道"]};
+ {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
+ {namae = "代々木公園"; saitan_kyori = 2.1; temae_list = ["代々木公園"; "明治神宮前"; "表参道"]}]
+
+明治神宮前駅とひと駅でつながっている「代々木公園」駅の saitan_kyori が検出され、temae_list にリストアップされている。
+
+こういうふうに処理がおこなわれていき、最終、このリストが空になるまで処理が行われる。
+
+
+dijkstra_main 関数に 一番最初の tmp_eki_list7 を渡した結果が以下である。
+
+# dijkstra_main tmp_eki_list7 global_ekikan_list ;;
+- : eki_t list =
+[{namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]};
+ {namae = "明治神宮前"; saitan_kyori = 0.9; temae_list = ["明治神宮前"; "表参道"]};
+ {namae = "乃木坂"; saitan_kyori = 1.4; temae_list = ["乃木坂"; "表参道"]};
+ {namae = "青山一丁目"; saitan_kyori = 1.4; temae_list = ["青山一丁目"; "表参道"]};
+ {namae = "代々木公園"; saitan_kyori = 2.1; temae_list = ["代々木公園"; "明治神宮前"; "表参道"]};
+ {namae = "赤坂"; saitan_kyori = 2.5; temae_list = ["赤坂"; "乃木坂"; "表参道"]};
+ {namae = "永田町"; saitan_kyori = 2.7; temae_list = ["永田町"; "青山一丁目"; "表参道"]};
+ {namae = "代々木上原"; saitan_kyori = 3.1; temae_list = ["代々木上原"; "代々木公園"; "明治神宮前"; "表参道"]};
+ {namae = "国会議事堂前"; saitan_kyori = 3.3; temae_list = ["国会議事堂前"; "赤坂"; "乃木坂"; "表参道"]};
+ {namae = "半蔵門"; saitan_kyori = 3.7; temae_list = ["半蔵門"; "永田町"; "青山一丁目"; "表参道"]};
+ {namae = "霞ヶ関"; saitan_kyori = 4.; temae_list = ["霞ヶ関"; "国会議事堂前"; "赤坂"; "乃木坂"; "表参道"]};
+ {namae = "日比谷"; saitan_kyori = 5.2; temae_list = ["日比谷"; "霞ヶ関"; "国会議事堂前"; "赤坂"; "乃木坂"; "表参道"]};
+ {namae = "九段下"; saitan_kyori = 5.30000000000000071; temae_list =  ["九段下"; "半蔵門"; "永田町"; "青山一丁目"; "表参道"]};
+ {namae = "神保町"; saitan_kyori = 5.70000000000000107; temae_list = ["神保町"; "九段下"; "半蔵門"; "永田町"; "青山一丁目"; "表参道"]};
+ {namae = "二重橋前"; saitan_kyori = 5.9; temae_list = ["二重橋前"; "日比谷"; "霞ヶ関"; "国会議事堂前"; "赤坂"; "乃木坂"; "表参道"]};
+ {namae = "大手町"; saitan_kyori = 6.60000000000000053; temae_list = ["大手町"; "二重橋前"; "日比谷"; "霞ヶ関"; "国会議事堂前"; "赤坂"; "乃木坂"; "表参道"]}]
+
+表参道駅を起点として、それぞれの駅までの最短距離と経路情報がリスト化されている。
+ただ、乗り換えは考慮されていない。
+

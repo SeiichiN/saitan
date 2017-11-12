@@ -27,10 +27,11 @@ type eki_t = {
 (* eki_t型のリストにする make_eki_list : ekimei_t list -> eki_t list *)
 (* 初期化する shokika : eki_t list -> string -> eki_t list *)
 
-let tmp_eki_list7B = [
+let tmp_eki_list7 = [
     {namae = "青山一丁目"; saitan_kyori = infinity; temae_list = []};
     {namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
     {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+    {namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]};
     {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
     {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
     {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
@@ -78,10 +79,11 @@ let koushin p v lst =
     ) v 
      
 (* テスト *)
-let test1 = koushin  s  tmp_eki_list7B global_ekikan_list =
+let test1 = koushin  s  tmp_eki_list7 global_ekikan_list =
   [{namae = "青山一丁目"; saitan_kyori = infinity; temae_list = []};
    {namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
    {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+   {namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]};
    {namae = "霞ヶ関"; saitan_kyori = 1.; temae_list = ["霞ヶ関";  "銀座"]};
    {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
    {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
@@ -95,21 +97,24 @@ let test1 = koushin  s  tmp_eki_list7B global_ekikan_list =
    {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
    {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []}]
 
-let t = {namae = "明治神宮前"; saitan_kyori = 0.9; temae_list = ["明治神宮前"; "表参道"]}
-let tmp_eki_list9 =          
- [{namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
-  {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
-  {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
-  {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
-  {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
-  {namae = "神保町"; saitan_kyori = infinity; temae_list = []};
-  {namae = "永田町"; saitan_kyori = infinity; temae_list = []};
-  {namae = "二重橋前"; saitan_kyori = infinity; temae_list = []};
-  {namae = "乃木坂"; saitan_kyori = 1.4; temae_list = ["乃木坂"; "表参道"]};
-  {namae = "半蔵門"; saitan_kyori = infinity; temae_list = []};
-  {namae = "日比谷"; saitan_kyori = infinity; temae_list = []};
-  {namae = "青山一丁目"; saitan_kyori = 1.4; temae_list = ["青山一丁目"; "表参道"]};
-  {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
-  {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []}]
+
+let test2 = koushin  p  tmp_eki_list7 global_ekikan_list =
+[{namae = "青山一丁目"; saitan_kyori = 1.4; temae_list = ["青山一丁目"; "表参道"]};
+ {namae = "赤坂"; saitan_kyori = infinity; temae_list = []};
+ {namae = "大手町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "表参道"; saitan_kyori = 0.; temae_list = ["表参道"]};
+ {namae = "霞ヶ関"; saitan_kyori = infinity; temae_list = []};
+ {namae = "九段下"; saitan_kyori = infinity; temae_list = []};
+ {namae = "国会議事堂前"; saitan_kyori = infinity; temae_list = []};
+ {namae = "神保町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "永田町"; saitan_kyori = infinity; temae_list = []};
+ {namae = "二重橋前"; saitan_kyori = infinity; temae_list = []};
+ {namae = "乃木坂"; saitan_kyori = 1.4; temae_list = ["乃木坂"; "表参道"]};
+ {namae = "半蔵門"; saitan_kyori = infinity; temae_list = []};
+ {namae = "日比谷"; saitan_kyori = infinity; temae_list = []};
+ {namae = "明治神宮前"; saitan_kyori = 0.9; temae_list = ["明治神宮前"; "表参道"]};
+ {namae = "代々木上原"; saitan_kyori = infinity; temae_list = []};
+ {namae = "代々木公園"; saitan_kyori = infinity; temae_list = []}]
+
                
                 
